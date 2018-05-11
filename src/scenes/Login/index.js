@@ -26,7 +26,7 @@ export default class Login extends Component {
     ).then((response) => {
       console.log(response)
       if (response.status === 401) {
-        throw 'Authentication Error'
+        throw new Error('Authentication Error')
       } else {
         this.setState({
           errorMessage: null

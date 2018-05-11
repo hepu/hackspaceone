@@ -1,4 +1,5 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore } from 'redux'
+// import { createStore, applyMiddleware } from 'redux'
 // import thunk from 'redux-thunk'
 import globalReducer from '../reducers'
 
