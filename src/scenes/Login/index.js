@@ -17,38 +17,42 @@ class Login extends Component {
 
   _onSubmit(event) {
     event.preventDefault()
-    fetch(
-      'http://api.raaf.hansgamarra.com/users/sign_in',
-      {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: this.state.email,
-          password: this.state.password,
-        })
-      }
-    ).then((response) => {
-      console.log(response)
-      if (response.status === 401) {
-        throw new Error('Authentication Error')
-      } else {
-        return response.json()
-      }
-    }).then((json) => {
-      console.log('Response:', json)
-      alert('Sign in successful!')
-      this.setState({
-        errorMessage: null
-      })
-      this.props.setCurrentUser(json.data.attributes)
-    }).catch((error) => {
-      this.setState({
-        errorMessage: error.message
-      })
-    })
+    this.props.signIn(
+      this.state.email,
+      this.state.password
+    )
+    // fetch(
+    //   'http://api.raaf.hansgamarra.com/users/sign_in',
+    //   {
+    //     method: 'post',
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //       email: this.state.email,
+    //       password: this.state.password,
+    //     })
+    //   }
+    // ).then((response) => {
+    //   console.log(response)
+    //   if (response.status === 401) {
+    //     throw new Error('Authentication Error')
+    //   } else {
+    //     return response.json()
+    //   }
+    // }).then((json) => {
+    //   console.log('Response:', json)
+    //   alert('Sign in successful!')
+    //   this.setState({
+    //     errorMessage: null
+    //   })
+    //   this.props.setCurrentUser(json.data.attributes)
+    // }).catch((error) => {
+    //   this.setState({
+    //     errorMessage: error.message
+    //   })
+    // })
   }
 
   _onChangeInput(event) {
@@ -113,6 +117,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setCurrentUser: userAttributes => dispatch(currentUserActions.set(userAttributes)),
+    signIn: (email, password) => currentUserActions.signIn(email, password)(dispatch)
   }
 }
 

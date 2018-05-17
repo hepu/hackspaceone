@@ -30,3 +30,32 @@ export function update(user) {
     }
   }
 }
+
+export function signIn(email, password) {
+  return (dispatch) => {
+    fetch(
+      'http://api.raaf.hansgamarra.com/users/sign_in',
+      {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      }
+    ).then((response) => {
+      console.log(response)
+      if (response.status === 401) {
+        throw new Error('Authentication Error')
+      } else {
+        return response.json()
+      }
+    }).then((json) => {
+      console.log('Response:', json)
+      alert('Sign in successful!')
+      dispatch(set(json.data.attributes))
+    }).catch((error) => {
+      // TODO: Dispatch error
+    })
+  }
+}
