@@ -15,29 +15,34 @@ export default class Login extends Component {
   _onSubmit(event) {
     event.preventDefault()
     fetch(
-      'http://private-828b1-raaf.apiary-mock.com/users/sign_in',
+      'http://api.raaf.hansgamarra.com/users/sign_in',
       {
         method: 'post',
-        data: {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
           email: this.state.email,
           password: this.state.password,
-        }
+        })
       }
     ).then((response) => {
       console.log(response)
       if (response.status === 401) {
         throw new Error('Authentication Error')
       } else {
-        this.setState({
-          errorMessage: null
-        })
         return response.json()
       }
     }).then((json) => {
+      console.log('Response:', json)
       alert('Sign in successful!')
+      this.setState({
+        errorMessage: null
+      })
     }).catch((error) => {
       this.setState({
-        errorMessage: error
+        errorMessage: error.message
       })
     })
   }
