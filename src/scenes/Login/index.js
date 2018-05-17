@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-export default class Login extends Component {
+import * as currentUserActions from '../../actions/currentUser'
+
+class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -40,6 +43,7 @@ export default class Login extends Component {
       this.setState({
         errorMessage: null
       })
+      this.props.setCurrentUser(json.data.attributes)
     }).catch((error) => {
       this.setState({
         errorMessage: error.message
@@ -72,6 +76,8 @@ export default class Login extends Component {
           onChange={this._onChangeInput}/>
         {this.renderSubmitBtn()}
         {this.renderError()}
+        <br/>
+        {JSON.stringify(this.props.currentUser)}
       </form>
     )
   }
@@ -97,3 +103,17 @@ export default class Login extends Component {
     }
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.currentUser
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setCurrentUser: userAttributes => dispatch(currentUserActions.set(userAttributes)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

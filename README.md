@@ -6,14 +6,14 @@
 
 ## File Structure
 
+### assets
+Todas las fuentes, imágenes o media del proyecto
+
 ### src/actions
 Todos los *action creators* de la App
 
 ### src/components
 Todos los componentes que se utilizan en la App pero no están conectados a Redux y no hacen parte de la navegación
-
-### assets
-Todas las fuentes, imágenes o media del proyecto
 
 ## src/containers
 Todos los componentes que se utilizan en la App que se conectan a Redux y no hacen parte de la navegación
